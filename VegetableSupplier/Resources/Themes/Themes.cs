@@ -1,3 +1,7 @@
+using Microsoft.Maui.Graphics;
+using System;
+using System.Collections.Generic;
+
 namespace VegetableSupplier.Themes;
 
 public abstract class Theme

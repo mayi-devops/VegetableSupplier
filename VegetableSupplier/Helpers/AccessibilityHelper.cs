@@ -1,3 +1,6 @@
+using Microsoft.Maui.Controls;
+using System;
+
 namespace VegetableSupplier.Helpers;
 
 public static class AccessibilityHelper

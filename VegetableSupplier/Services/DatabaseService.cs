@@ -1,6 +1,11 @@
 using SQLite;
 using System.Text.Json;
 using VegetableSupplier.Models;
+using System.Collections.Generic;
+using System.Linq;
+using System.IO;
+using System;
+using System.Threading.Tasks;
 
 namespace VegetableSupplier.Services;
 
@@ -24,34 +29,22 @@ public class DatabaseService
         await _database.CreateTableAsync<Invoice>();
         await _database.CreateTableAsync<InvoiceItem>();
         await _database.CreateTableAsync<AuthUser>();
+        await _database.CreateTableAsync<InventoryItem>();
+        await _database.CreateTableAsync<StockTransaction>();
+        await _database.CreateTableAsync<Customer>();
+        await _database.CreateTableAsync<CustomerPricing>();
+        await _database.CreateTableAsync<CustomerOrder>();
+        await _database.CreateTableAsync<OrderItem>();
 
         // Initialize default data
         await InitializeVegetableUnits();
         await InitializeDefaultVegetables();
     }
 
-    public async Task<List<VegetableUnit>> GetVegetableUnitsAsync()
-    {
-        return await _database.Table<VegetableUnit>().ToListAsync();
-    }
-
-    public async Task<List<Vegetable>> GetVegetablesAsync()
-    {
-        var entities = await _database.Table<VegetableEntity>().ToListAsync();
-        return entities.Select(e => e.ToVegetable()).ToList();
-    }
-
-        // Initialize default data
-        InitializeVegetableUnits().Wait();
-        InitializeDefaultVegetables().Wait();
-    }
-
     private async Task InitializeVegetableUnits()
     {
         if (await _database.Table<VegetableUnit>().CountAsync() > 0)
-        {
             return;
-        }
 
         var units = new List<VegetableUnit>
         {
@@ -65,160 +58,81 @@ public class DatabaseService
         };
 
         foreach (var unit in units)
-        {
             await _database.InsertAsync(unit);
-        }
-    }
-
-    public async Task SaveVegetableAsync(Vegetable vegetable)
-    {
-        vegetable.UnitPrices ??= new Dictionary<string, decimal>();
-        var serializedPrices = JsonSerializer.Serialize(vegetable.UnitPrices);
-        
-        var dbVegetable = new VegetableEntity
-        {
-            Id = vegetable.Id,
-            NameEn = vegetable.NameEn,
-            NameHi = vegetable.NameHi,
-            NameTe = vegetable.NameTe,
-            UnitPricesJson = serializedPrices,
-            UpdatedAt = vegetable.UpdatedAt
-        };
-
-        if (vegetable.Id == 0)
-        {
-            await _database.InsertAsync(dbVegetable);
-        }
-        else
-        {
-            await _database.UpdateAsync(dbVegetable);
-        }
     }
 
     private async Task InitializeDefaultVegetables()
     {
         if (await _database.Table<VegetableEntity>().CountAsync() > 0)
-        {
             return;
-        }
 
         var vegetables = new List<Vegetable>
         {
-            new() 
-            { 
+            new()
+            {
                 NameEn = "Tomato",
                 NameHi = "टमाटर",
                 NameTe = "టమాటో",
-                UnitPrices = new Dictionary<string, decimal> 
-                { 
-                    { "kg", 40.0m },
-                    { "box", 400.0m }
-                },
+                UnitPrices = new Dictionary<string, decimal> { { "kg", 40.0m }, { "box", 400.0m } },
                 UpdatedAt = DateTime.UtcNow
             },
-            new() 
-            { 
+            new()
+            {
                 NameEn = "Onion",
                 NameHi = "प्याज",
                 NameTe = "ఉల్లిపాయ",
-                UnitPrices = new Dictionary<string, decimal> 
-                { 
-                    { "kg", 30.0m },
-                    { "box", 300.0m }
-                },
+                UnitPrices = new Dictionary<string, decimal> { { "kg", 30.0m }, { "box", 300.0m } },
                 UpdatedAt = DateTime.UtcNow
             },
-            new() 
-            { 
+            new()
+            {
                 NameEn = "Potato",
                 NameHi = "आलू",
                 NameTe = "బంగాళాదుంప",
-                UnitPrices = new Dictionary<string, decimal> 
-                { 
-                    { "kg", 25.0m },
-                    { "box", 250.0m }
-                },
+                UnitPrices = new Dictionary<string, decimal> { { "kg", 25.0m }, { "box", 250.0m } },
                 UpdatedAt = DateTime.UtcNow
-            }
-        };
-
-        foreach (var vegetable in vegetables)
-        {
-            await SaveVegetableAsync(vegetable);
-        }
-    }
-
-    public async Task<Vegetable> GetVegetableByIdAsync(int id)
-    {
-        var entity = await _database.GetAsync<VegetableEntity>(id);
-        return entity?.ToVegetable();
-    }
-
-    public async Task DeleteVegetableAsync(int id)
-    {
-        await _database.DeleteAsync<VegetableEntity>(id);
-    }
-            new Vegetable 
-            { 
+            },
+            new()
+            {
                 NameEn = "Spinach",
                 NameHi = "पालक",
                 NameTe = "పాలకూర",
-                UnitPrices = new Dictionary<string, decimal> 
-                { 
-                    { "bunch_small", 15.0m },
-                    { "bunch_big", 25.0m }
-                },
+                UnitPrices = new Dictionary<string, decimal> { { "bunch_small", 15.0m }, { "bunch_big", 25.0m } },
                 UpdatedAt = DateTime.UtcNow
             },
-            new Vegetable 
-            { 
+            new()
+            {
                 NameEn = "Cauliflower",
                 NameHi = "फूलगोभी",
                 NameTe = "కాలిఫ్లవర్",
-                UnitPrices = new Dictionary<string, decimal> 
-                { 
-                    { "piece", 30.0m },
-                    { "dozen", 300.0m }
-                },
+                UnitPrices = new Dictionary<string, decimal> { { "piece", 30.0m }, { "dozen", 300.0m } },
                 UpdatedAt = DateTime.UtcNow
             },
-            new Vegetable 
-            { 
+            new()
+            {
                 NameEn = "Carrot",
                 NameHi = "गाजर",
                 NameTe = "కారెట్",
-                UnitPrices = new Dictionary<string, decimal> 
-                { 
-                    { "kg", 35.0m },
-                    { "bunch_small", 20.0m }
-                },
+                UnitPrices = new Dictionary<string, decimal> { { "kg", 35.0m }, { "bunch_small", 20.0m } },
                 UpdatedAt = DateTime.UtcNow
             },
-            new Vegetable 
-            { 
+            new()
+            {
                 NameEn = "Cucumber",
                 NameHi = "खीरा",
                 NameTe = "దోసకాయ",
-                UnitPrices = new Dictionary<string, decimal> 
-                { 
-                    { "kg", 30.0m },
-                    { "piece", 10.0m }
-                },
+                UnitPrices = new Dictionary<string, decimal> { { "kg", 30.0m }, { "piece", 10.0m } },
                 UpdatedAt = DateTime.UtcNow
             }
-            // Add more vegetables as needed
         };
 
-        await _database.InsertAllAsync(vegetables);
+        foreach (var v in vegetables)
+            await SaveVegetableAsync(v);
     }
 
-    // Vendor operations
-    public Task<List<Vendor>> GetVendorsAsync() =>
-        _database.Table<Vendor>().ToListAsync();
-
-    public Task<Vendor> GetVendorAsync(int id) =>
-        _database.Table<Vendor>().Where(v => v.Id == id).FirstOrDefaultAsync();
-
+    // --- Vendor operations
+    public Task<List<Vendor>> GetVendorsAsync() => _database.Table<Vendor>().ToListAsync();
+    public Task<Vendor> GetVendorAsync(int id) => _database.Table<Vendor>().Where(v => v.Id == id).FirstOrDefaultAsync();
     public Task<int> SaveVendorAsync(Vendor vendor)
     {
         if (vendor.Id == 0)
@@ -227,34 +141,53 @@ public class DatabaseService
             vendor.UpdatedAt = DateTime.UtcNow;
             return _database.InsertAsync(vendor);
         }
-        
         vendor.UpdatedAt = DateTime.UtcNow;
         return _database.UpdateAsync(vendor);
     }
+    public Task<int> DeleteVendorAsync(Vendor vendor) => _database.DeleteAsync(vendor);
 
-    public Task<int> DeleteVendorAsync(Vendor vendor) =>
-        _database.DeleteAsync(vendor);
-
-    // Vegetable operations
-    public Task<List<Vegetable>> GetVegetablesAsync() =>
-        _database.Table<Vegetable>().ToListAsync();
-
-    public Task<int> SaveVegetableAsync(Vegetable vegetable)
+    // --- Vegetable operations (store serialized UnitPrices in VegetableEntity)
+    public async Task<List<Vegetable>> GetVegetablesAsync()
     {
-        vegetable.UpdatedAt = DateTime.UtcNow;
-        if (vegetable.Id == 0)
-            return _database.InsertAsync(vegetable);
-        return _database.UpdateAsync(vegetable);
+        var entities = await _database.Table<VegetableEntity>().ToListAsync();
+        return entities.Select(e => e.ToVegetable()).ToList();
     }
 
-    // Invoice operations
+    public async Task<Vegetable> GetVegetableByIdAsync(int id)
+    {
+        var entity = await _database.GetAsync<VegetableEntity>(id);
+        return entity?.ToVegetable();
+    }
+
+    public async Task SaveVegetableAsync(Vegetable vegetable)
+    {
+        vegetable.UpdatedAt = DateTime.UtcNow;
+        var entity = new VegetableEntity
+        {
+            Id = vegetable.Id,
+            NameEn = vegetable.NameEn,
+            NameHi = vegetable.NameHi,
+            NameTe = vegetable.NameTe,
+            UpdatedAt = vegetable.UpdatedAt
+        };
+        entity.SetUnitPrices(vegetable.UnitPrices ?? new Dictionary<string, decimal>());
+
+        if (vegetable.Id == 0)
+            await _database.InsertAsync(entity);
+        else
+            await _database.UpdateAsync(entity);
+    }
+
+    public Task DeleteVegetableAsync(int id) => _database.DeleteAsync<VegetableEntity>(id);
+
+    // --- Invoice operations
     public async Task<Invoice> CreateInvoiceAsync(Invoice invoice, List<InvoiceItem> items)
     {
         await _database.RunInTransactionAsync(async (conn) =>
         {
             invoice.CreatedAt = DateTime.UtcNow;
             await conn.InsertAsync(invoice);
-            
+
             foreach (var item in items)
             {
                 item.InvoiceId = invoice.Id;
@@ -267,13 +200,20 @@ public class DatabaseService
     public Task<List<Invoice>> GetVendorInvoicesAsync(int vendorId) =>
         _database.Table<Invoice>().Where(i => i.VendorId == vendorId).ToListAsync();
 
-    public async Task<List<InvoiceItem>> GetInvoiceItemsAsync(int invoiceId) =>
-        await _database.Table<InvoiceItem>().Where(i => i.InvoiceId == invoiceId).ToListAsync();
+    public Task<List<InvoiceItem>> GetInvoiceItemsAsync(int invoiceId) =>
+        _database.Table<InvoiceItem>().Where(i => i.InvoiceId == invoiceId).ToListAsync();
 
-    // Auth operations
+    // --- Auth operations
     public Task<AuthUser> GetUserAsync(string email) =>
         _database.Table<AuthUser>().Where(u => u.Email == email).FirstOrDefaultAsync();
 
-    public Task<int> SaveUserAsync(AuthUser user) =>
-        _database.InsertOrReplaceAsync(user);
+    public Task<int> SaveUserAsync(AuthUser user) => _database.InsertOrReplaceAsync(user);
+
+    // --- Inventory / Transactions
+    public Task<InventoryItem> GetInventoryItemAsync(int id) =>
+        _database.Table<InventoryItem>().Where(i => i.Id == id).FirstOrDefaultAsync();
+
+    public Task<int> InsertStockTransactionAsync(StockTransaction tx) => _database.InsertAsync(tx);
+
+    // Add other DB helpers as needed...
 }
