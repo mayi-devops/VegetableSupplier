@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<Shell
+    x:Class="VegetableSupplier.AppShell"
+    xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+    xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+    xmlns:views="clr-namespace:VegetableSupplier.Views"
+    Shell.FlyoutBehavior="Flyout">
+
+    <ShellContent
+        Title="Login"
+        ContentTemplate="{DataTemplate views:LoginPage}"
+        Route="login" />
+
+    <FlyoutItem Title="{x:Static resx:AppResources.Dashboard}" Route="dashboard">
+        <ShellContent ContentTemplate="{DataTemplate views:DashboardPage}" />
+    </FlyoutItem>
+
+    <FlyoutItem Title="{x:Static resx:AppResources.Vendors}" Route="vendors">
+        <ShellContent ContentTemplate="{DataTemplate views:VendorsPage}" />
+    </FlyoutItem>
+
+    <FlyoutItem Title="{x:Static resx:AppResources.Vegetables}" Route="vegetables">
+        <ShellContent ContentTemplate="{DataTemplate views:VegetablesPage}" />
+    </FlyoutItem>
+
+    <FlyoutItem Title="{x:Static resx:AppResources.Invoices}" Route="invoices">
+        <ShellContent ContentTemplate="{DataTemplate views:InvoicesPage}" />
+    </FlyoutItem>
+
+    <FlyoutItem Title="{x:Static resx:AppResources.Settings}" Route="settings">
+        <ShellContent ContentTemplate="{DataTemplate views:SettingsPage}" />
+    </FlyoutItem>
+
+    <Shell.FlyoutHeader>
+        <Grid HeightRequest="200" BackgroundColor="{StaticResource Primary}">
+            <Image Source="app_icon.png"
+                   HeightRequest="100"
+                   WidthRequest="100"
+                   HorizontalOptions="Center"
+                   VerticalOptions="Center"/>
+        </Grid>
+    </Shell.FlyoutHeader>
+</Shell>

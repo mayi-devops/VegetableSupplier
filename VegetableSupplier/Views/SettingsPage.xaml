@@ -1,0 +1,125 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="VegetableSupplier.Views.SettingsPage"
+             Title="{x:Static resx:AppResources.Settings}">
+    <ScrollView>
+        <VerticalStackLayout Spacing="20" Padding="20">
+            <!-- Appearance -->
+            <Frame Style="{StaticResource CardFrame}">
+                <Grid RowDefinitions="Auto,Auto,Auto" RowSpacing="15">
+                    <Label Text="Appearance"
+                           Style="{StaticResource HeaderLabel}"/>
+
+                    <StackLayout Grid.Row="1" Orientation="Horizontal">
+                        <Label Text="Dark Mode"
+                               VerticalOptions="Center"
+                               Style="{StaticResource BaseLabel}"/>
+                        <Switch IsToggled="{Binding IsDarkMode}"
+                                HorizontalOptions="EndAndExpand"
+                                OnColor="{StaticResource Primary}"/>
+                    </StackLayout>
+
+                    <CollectionView Grid.Row="2"
+                                  ItemsSource="{Binding AvailableThemes}"
+                                  SelectionMode="Single"
+                                  SelectedItem="{Binding SelectedTheme}">
+                        <CollectionView.ItemsLayout>
+                            <LinearItemsLayout Orientation="Horizontal"
+                                             ItemSpacing="10"/>
+                        </CollectionView.ItemsLayout>
+                        <CollectionView.ItemTemplate>
+                            <DataTemplate>
+                                <controls:ThemePreviewControl Theme="{Binding .}">
+                                    <controls:ThemePreviewControl.GestureRecognizers>
+                                        <TapGestureRecognizer Command="{Binding Source={RelativeSource AncestorType={x:Type viewmodels:SettingsPageViewModel}}, Path=SelectThemeCommand}"
+                                                            CommandParameter="{Binding .}"/>
+                                    </controls:ThemePreviewControl.GestureRecognizers>
+                                </controls:ThemePreviewControl>
+                            </DataTemplate>
+                        </CollectionView.ItemTemplate>
+                    </CollectionView>
+                </Grid>
+            </Frame>
+
+            <!-- Language Selection -->
+            <Frame Style="{StaticResource CardFrame}">
+                <Grid RowDefinitions="Auto,Auto" RowSpacing="15">
+                    <Label Text="{x:Static resx:AppResources.Language}"
+                           Style="{StaticResource HeaderLabel}"/>
+
+                    <Picker Grid.Row="1"
+                            ItemsSource="{Binding AvailableLanguages}"
+                            SelectedItem="{Binding SelectedLanguage}"
+                            Title="{x:Static resx:AppResources.Language}"/>
+                </Grid>
+            </Frame>
+
+            <!-- User Profile -->
+            <Frame Style="{StaticResource CardFrame}">
+                <Grid RowDefinitions="Auto,Auto,Auto" RowSpacing="15">
+                    <Label Text="Profile" 
+                           Style="{StaticResource HeaderLabel}"/>
+
+                    <VerticalStackLayout Grid.Row="1" Spacing="5">
+                        <Label Text="{Binding UserEmail}"
+                               Style="{StaticResource BaseLabel}"/>
+                        <Label Text="{Binding UserName}"
+                               Style="{StaticResource SubHeaderLabel}"/>
+                    </VerticalStackLayout>
+
+                    <Button Grid.Row="2"
+                            Text="Sign Out"
+                            Command="{Binding SignOutCommand}"
+                            Style="{StaticResource SecondaryButton}"/>
+                </Grid>
+            </Frame>
+
+            <!-- App Info -->
+            <Frame Style="{StaticResource CardFrame}">
+                <VerticalStackLayout Spacing="10">
+                    <Label Text="About"
+                           Style="{StaticResource HeaderLabel}"/>
+
+                    <Grid ColumnDefinitions="*,Auto" RowDefinitions="Auto,Auto,Auto" RowSpacing="10">
+                        <Label Text="Version"
+                               Style="{StaticResource BaseLabel}"/>
+                        <Label Grid.Column="1"
+                               Text="{Binding AppVersion}"
+                               Style="{StaticResource SubHeaderLabel}"/>
+
+                        <Label Grid.Row="1"
+                               Text="Build"
+                               Style="{StaticResource BaseLabel}"/>
+                        <Label Grid.Row="1"
+                               Grid.Column="1"
+                               Text="{Binding BuildNumber}"
+                               Style="{StaticResource SubHeaderLabel}"/>
+                    </Grid>
+                </VerticalStackLayout>
+            </Frame>
+
+            <!-- Storage Info -->
+            <Frame Style="{StaticResource CardFrame}">
+                <Grid RowDefinitions="Auto,Auto" RowSpacing="15">
+                    <Label Text="Storage"
+                           Style="{StaticResource HeaderLabel}"/>
+
+                    <VerticalStackLayout Grid.Row="1" Spacing="10">
+                        <Grid ColumnDefinitions="*,Auto">
+                            <Label Text="Local Database"
+                                   Style="{StaticResource BaseLabel}"/>
+                            <Label Grid.Column="1"
+                                   Text="{Binding DatabaseSize}"
+                                   Style="{StaticResource SubHeaderLabel}"/>
+                        </Grid>
+
+                        <Button Text="Clear Cache"
+                                Command="{Binding ClearCacheCommand}"
+                                Style="{StaticResource SecondaryButton}"/>
+                    </VerticalStackLayout>
+                </Grid>
+            </Frame>
+        </VerticalStackLayout>
+    </ScrollView>
+</ContentPage>

@@ -1,0 +1,93 @@
+<?xml version="1.0" encoding="utf-8"?>
+<root>
+    <data name="Dashboard" xml:space="preserve">
+        <value>డాష్‌బోర్డ్</value>
+    </data>
+    <data name="Vendors" xml:space="preserve">
+        <value>విక్రేతలు</value>
+    </data>
+    <data name="Vegetables" xml:space="preserve">
+        <value>కూరగాయలు</value>
+    </data>
+    <data name="Invoices" xml:space="preserve">
+        <value>ఇన్వాయిస్‌లు</value>
+    </data>
+    <data name="Settings" xml:space="preserve">
+        <value>సెట్టింగ్స్</value>
+    </data>
+    <data name="AddVendor" xml:space="preserve">
+        <value>విక్రేతను జోడించండి</value>
+    </data>
+    <data name="EditVendor" xml:space="preserve">
+        <value>విక్రేతను సవరించండి</value>
+    </data>
+    <data name="VendorName" xml:space="preserve">
+        <value>విక్రేత పేరు</value>
+    </data>
+    <data name="PhoneNumber" xml:space="preserve">
+        <value>ఫోన్ నంబర్</value>
+    </data>
+    <data name="Email" xml:space="preserve">
+        <value>ఇమెయిల్</value>
+    </data>
+    <data name="Address" xml:space="preserve">
+        <value>చిరునామా</value>
+    </data>
+    <data name="Save" xml:space="preserve">
+        <value>సేవ్ చేయండి</value>
+    </data>
+    <data name="Cancel" xml:space="preserve">
+        <value>రద్దు చేయండి</value>
+    </data>
+    <data name="Delete" xml:space="preserve">
+        <value>తొలగించండి</value>
+    </data>
+    <data name="NewInvoice" xml:space="preserve">
+        <value>కొత్త ఇన్వాయిస్</value>
+    </data>
+    <data name="SelectVendor" xml:space="preserve">
+        <value>విక్రేతను ఎంచుకోండి</value>
+    </data>
+    <data name="AddItems" xml:space="preserve">
+        <value>వస్తువులను జోడించండి</value>
+    </data>
+    <data name="Item" xml:space="preserve">
+        <value>వస్తువు</value>
+    </data>
+    <data name="Quantity" xml:space="preserve">
+        <value>పరిమాణం</value>
+    </data>
+    <data name="Price" xml:space="preserve">
+        <value>ధర</value>
+    </data>
+    <data name="Total" xml:space="preserve">
+        <value>మొత్తం</value>
+    </data>
+    <data name="GenerateInvoice" xml:space="preserve">
+        <value>ఇన్వాయిస్ సృష్టించండి</value>
+    </data>
+    <data name="Share" xml:space="preserve">
+        <value>షేర్ చేయండి</value>
+    </data>
+    <data name="Language" xml:space="preserve">
+        <value>భాష</value>
+    </data>
+    <data name="SearchVendors" xml:space="preserve">
+        <value>విక్రేతలను శోధించండి</value>
+    </data>
+    <data name="SearchVegetables" xml:space="preserve">
+        <value>కూరగాయలను శోధించండి</value>
+    </data>
+    <data name="NoVendorsFound" xml:space="preserve">
+        <value>విక్రేతలు కనుగొనబడలేదు</value>
+    </data>
+    <data name="NoVegetablesFound" xml:space="preserve">
+        <value>కూరగాయలు కనుగొనబడలేదు</value>
+    </data>
+    <data name="NoInvoicesFound" xml:space="preserve">
+        <value>ఇన్వాయిస్‌లు కనుగొనబడలేదు</value>
+    </data>
+    <data name="RecentTransactions" xml:space="preserve">
+        <value>ఇటీవలి లావాదేవీలు</value>
+    </data>
+</root>

@@ -1,0 +1,70 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="VegetableSupplier.Views.VendorsPage"
+             Title="{x:Static resx:AppResources.Vendors}">
+    <Grid RowDefinitions="Auto,*" Padding="20">
+        <!-- Search Bar -->
+        <SearchBar Placeholder="{x:Static resx:AppResources.SearchVendors}"
+                   Text="{Binding SearchQuery}"
+                   SearchCommand="{Binding SearchCommand}"/>
+
+        <!-- Vendors List -->
+        <RefreshView Grid.Row="1"
+                    Command="{Binding RefreshCommand}"
+                    IsRefreshing="{Binding IsRefreshing}">
+            <CollectionView ItemsSource="{Binding Vendors}"
+                          EmptyView="{x:Static resx:AppResources.NoVendorsFound}">
+                <CollectionView.ItemTemplate>
+                    <DataTemplate>
+                        <SwipeView>
+                            <SwipeView.RightItems>
+                                <SwipeItems>
+                                    <SwipeItem Text="{x:Static resx:AppResources.Delete}"
+                                              BackgroundColor="Red"
+                                              Command="{Binding Source={RelativeSource AncestorType={x:Type views:VendorsPage}}, Path=BindingContext.DeleteVendorCommand}"
+                                              CommandParameter="{Binding .}"/>
+                                </SwipeItems>
+                            </SwipeView.RightItems>
+                            
+                            <Frame Margin="0,5" Padding="15">
+                                <Frame.GestureRecognizers>
+                                    <TapGestureRecognizer 
+                                        Command="{Binding Source={RelativeSource AncestorType={x:Type views:VendorsPage}}, Path=BindingContext.EditVendorCommand}"
+                                        CommandParameter="{Binding .}"/>
+                                </Frame.GestureRecognizers>
+                                
+                                <Grid RowDefinitions="Auto,Auto" ColumnDefinitions="*,Auto">
+                                    <Label Text="{Binding Name}"
+                                           FontAttributes="Bold"/>
+                                           
+                                    <Label Grid.Row="1"
+                                           Text="{Binding PhoneNumber}"
+                                           TextColor="{StaticResource Gray500}"/>
+                                           
+                                    <Label Grid.Column="1"
+                                           Grid.RowSpan="2"
+                                           Text="{Binding TotalPurchases, StringFormat='₹{0:N0}'}"
+                                           VerticalOptions="Center"
+                                           FontAttributes="Bold"/>
+                                </Grid>
+                            </Frame>
+                        </SwipeView>
+                    </DataTemplate>
+                </CollectionView.ItemTemplate>
+            </CollectionView>
+        </RefreshView>
+
+        <!-- Add Vendor Button -->
+        <Button Grid.Row="1"
+                Text="+"
+                FontSize="32"
+                WidthRequest="60"
+                HeightRequest="60"
+                CornerRadius="30"
+                HorizontalOptions="End"
+                VerticalOptions="End"
+                Margin="20"
+                Command="{Binding AddVendorCommand}"/>
+    </Grid>
+</ContentPage>

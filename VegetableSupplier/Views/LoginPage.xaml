@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:toolkit="http://schemas.microsoft.com/dotnet/2022/maui/toolkit"
+             x:Class="VegetableSupplier.Views.LoginPage">
+    <Grid RowSpacing="25" RowDefinitions="Auto,Auto,*"
+          Padding="20"
+          VerticalOptions="Center">
+
+        <Image Grid.Row="0"
+               Source="app_icon.png"
+               HeightRequest="150"
+               WidthRequest="150"
+               HorizontalOptions="Center">
+            <Image.Behaviors>
+                <toolkit:IconTintColorBehavior TintColor="{StaticResource Primary}" />
+            </Image.Behaviors>
+        </Image>
+
+        <VerticalStackLayout Grid.Row="1" Spacing="5">
+            <Label Text="Vegetable Supplier"
+                   HorizontalOptions="Center"
+                   FontSize="32"
+                   FontAttributes="Bold"/>
+            <Label Text="Sign in to continue"
+                   HorizontalOptions="Center"
+                   FontSize="18"
+                   TextColor="{StaticResource Gray500}"/>
+        </VerticalStackLayout>
+
+        <Button Grid.Row="2"
+                Text="Sign in with Google"
+                Command="{Binding SignInCommand}"
+                IsEnabled="{Binding IsNotBusy}"
+                Style="{StaticResource PrimaryButton}"
+                HorizontalOptions="Fill"
+                Margin="20,40">
+            <Button.ImageSource>
+                <FontImageSource Glyph="&#xf1a0;"
+                               FontFamily="FontAwesome"/>
+            </Button.ImageSource>
+        </Button>
+
+        <ActivityIndicator Grid.Row="2"
+                          IsVisible="{Binding IsBusy}"
+                          IsRunning="{Binding IsBusy}"
+                          HorizontalOptions="Center"
+                          VerticalOptions="Center"/>
+    </Grid>
+</ContentPage>

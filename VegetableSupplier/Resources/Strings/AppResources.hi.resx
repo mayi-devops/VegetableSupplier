@@ -1,0 +1,93 @@
+<?xml version="1.0" encoding="utf-8"?>
+<root>
+    <data name="Dashboard" xml:space="preserve">
+        <value>डैशबोर्ड</value>
+    </data>
+    <data name="Vendors" xml:space="preserve">
+        <value>विक्रेता</value>
+    </data>
+    <data name="Vegetables" xml:space="preserve">
+        <value>सब्जियां</value>
+    </data>
+    <data name="Invoices" xml:space="preserve">
+        <value>चालान</value>
+    </data>
+    <data name="Settings" xml:space="preserve">
+        <value>सेटिंग्स</value>
+    </data>
+    <data name="AddVendor" xml:space="preserve">
+        <value>विक्रेता जोड़ें</value>
+    </data>
+    <data name="EditVendor" xml:space="preserve">
+        <value>विक्रेता संपादित करें</value>
+    </data>
+    <data name="VendorName" xml:space="preserve">
+        <value>विक्रेता का नाम</value>
+    </data>
+    <data name="PhoneNumber" xml:space="preserve">
+        <value>फ़ोन नंबर</value>
+    </data>
+    <data name="Email" xml:space="preserve">
+        <value>ईमेल</value>
+    </data>
+    <data name="Address" xml:space="preserve">
+        <value>पता</value>
+    </data>
+    <data name="Save" xml:space="preserve">
+        <value>सहेजें</value>
+    </data>
+    <data name="Cancel" xml:space="preserve">
+        <value>रद्द करें</value>
+    </data>
+    <data name="Delete" xml:space="preserve">
+        <value>हटाएं</value>
+    </data>
+    <data name="NewInvoice" xml:space="preserve">
+        <value>नया चालान</value>
+    </data>
+    <data name="SelectVendor" xml:space="preserve">
+        <value>विक्रेता चुनें</value>
+    </data>
+    <data name="AddItems" xml:space="preserve">
+        <value>आइटम जोड़ें</value>
+    </data>
+    <data name="Item" xml:space="preserve">
+        <value>आइटम</value>
+    </data>
+    <data name="Quantity" xml:space="preserve">
+        <value>मात्रा</value>
+    </data>
+    <data name="Price" xml:space="preserve">
+        <value>कीमत</value>
+    </data>
+    <data name="Total" xml:space="preserve">
+        <value>कुल</value>
+    </data>
+    <data name="GenerateInvoice" xml:space="preserve">
+        <value>चालान बनाएं</value>
+    </data>
+    <data name="Share" xml:space="preserve">
+        <value>शेयर करें</value>
+    </data>
+    <data name="Language" xml:space="preserve">
+        <value>भाषा</value>
+    </data>
+    <data name="SearchVendors" xml:space="preserve">
+        <value>विक्रेता खोजें</value>
+    </data>
+    <data name="SearchVegetables" xml:space="preserve">
+        <value>सब्जियां खोजें</value>
+    </data>
+    <data name="NoVendorsFound" xml:space="preserve">
+        <value>कोई विक्रेता नहीं मिला</value>
+    </data>
+    <data name="NoVegetablesFound" xml:space="preserve">
+        <value>कोई सब्जी नहीं मिली</value>
+    </data>
+    <data name="NoInvoicesFound" xml:space="preserve">
+        <value>कोई चालान नहीं मिला</value>
+    </data>
+    <data name="RecentTransactions" xml:space="preserve">
+        <value>हाल के लेनदेन</value>
+    </data>
+</root>

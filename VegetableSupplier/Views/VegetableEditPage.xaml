@@ -1,0 +1,68 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:models="clr-namespace:VegetableSupplier.Models"
+             x:Class="VegetableSupplier.Views.VegetableEditPage"
+             Title="{Binding Title}">
+    <ScrollView>
+        <VerticalStackLayout Padding="20" Spacing="20">
+            <!-- Names -->
+            <Frame Style="{StaticResource CardFrame}">
+                <VerticalStackLayout Spacing="15">
+                    <Label Text="Names" Style="{StaticResource HeaderLabel}"/>
+                    
+                    <Entry Placeholder="English Name"
+                           Text="{Binding NameEn}"/>
+                           
+                    <Entry Placeholder="Hindi Name"
+                           Text="{Binding NameHi}"/>
+                           
+                    <Entry Placeholder="Telugu Name"
+                           Text="{Binding NameTe}"/>
+                </VerticalStackLayout>
+            </Frame>
+
+            <!-- Unit Prices -->
+            <Frame Style="{StaticResource CardFrame}">
+                <VerticalStackLayout Spacing="15">
+                    <Label Text="Unit Prices" Style="{StaticResource HeaderLabel}"/>
+
+                    <CollectionView ItemsSource="{Binding UnitPrices}"
+                                  EmptyView="No unit prices added">
+                        <CollectionView.ItemTemplate>
+                            <DataTemplate x:DataType="models:UnitPriceViewModel">
+                                <Grid ColumnDefinitions="*,Auto,Auto" 
+                                      Padding="0,5">
+                                    <Picker ItemsSource="{Binding Source={RelativeSource AncestorType={x:Type views:VegetableEditPage}}, Path=BindingContext.AvailableUnits}"
+                                            SelectedItem="{Binding Unit}"
+                                            ItemDisplayBinding="{Binding Name}"/>
+                                            
+                                    <Entry Grid.Column="1"
+                                           Text="{Binding Price}"
+                                           Keyboard="Numeric"
+                                           WidthRequest="100"
+                                           Margin="10,0"/>
+                                           
+                                    <Button Grid.Column="2"
+                                            Text="×"
+                                            Command="{Binding Source={RelativeSource AncestorType={x:Type views:VegetableEditPage}}, Path=BindingContext.RemoveUnitPriceCommand}"
+                                            CommandParameter="{Binding .}"
+                                            Style="{StaticResource DangerButton}"/>
+                                </Grid>
+                            </DataTemplate>
+                        </CollectionView.ItemTemplate>
+                    </CollectionView>
+
+                    <Button Text="Add Unit Price"
+                            Command="{Binding AddUnitPriceCommand}"
+                            Style="{StaticResource SecondaryButton}"/>
+                </VerticalStackLayout>
+            </Frame>
+
+            <!-- Save Button -->
+            <Button Text="Save"
+                    Command="{Binding SaveCommand}"
+                    Style="{StaticResource PrimaryButton}"/>
+        </VerticalStackLayout>
+    </ScrollView>
+</ContentPage>

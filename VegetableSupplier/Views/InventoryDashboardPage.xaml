@@ -1,0 +1,171 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="VegetableSupplier.Views.InventoryDashboardPage"
+             Title="Inventory">
+
+    <Grid RowDefinitions="Auto,*" Padding="20">
+        <!-- Search and Filter -->
+        <Grid ColumnDefinitions="*,Auto" RowDefinitions="Auto,Auto" ColumnSpacing="15" RowSpacing="15">
+            <SearchBar Grid.ColumnSpan="2"
+                      Placeholder="Search inventory..."
+                      Text="{Binding SearchQuery}"/>
+
+            <Picker Grid.Row="1"
+                    ItemsSource="{Binding Locations}"
+                    SelectedItem="{Binding SelectedLocation}"
+                    Title="Select Location"/>
+
+            <ActivityIndicator Grid.Row="1"
+                             Grid.Column="1"
+                             IsVisible="{Binding IsLoading}"
+                             IsRunning="{Binding IsLoading}"/>
+        </Grid>
+
+        <ScrollView Grid.Row="1">
+            <VerticalStackLayout Spacing="20" Margin="0,20,0,0">
+                <!-- Low Stock Alerts -->
+                <Frame Style="{StaticResource CardFrame}"
+                       IsVisible="{Binding LowStockItems.Count, Converter={StaticResource IntToBoolConverter}}">
+                    <VerticalStackLayout Spacing="10">
+                        <Label Text="Low Stock Alerts"
+                               Style="{StaticResource HeaderLabel}"
+                               TextColor="{StaticResource ErrorColor}"/>
+
+                        <CollectionView ItemsSource="{Binding LowStockItems}">
+                            <CollectionView.ItemTemplate>
+                                <DataTemplate>
+                                    <Frame Margin="0,5" Padding="10">
+                                        <Grid ColumnDefinitions="*,Auto,Auto" ColumnSpacing="10">
+                                            <VerticalStackLayout>
+                                                <Label Text="{Binding VegetableName}"
+                                                       FontAttributes="Bold"/>
+                                                <Label Text="{Binding LocationCode}"
+                                                       TextColor="{StaticResource Gray500}"/>
+                                            </VerticalStackLayout>
+
+                                            <VerticalStackLayout Grid.Column="1"
+                                                               HorizontalOptions="End">
+                                                <Label Text="{Binding Quantity, StringFormat='{0:N0}'}"
+                                                       FontAttributes="Bold"/>
+                                                <Label Text="{Binding Unit}"
+                                                       TextColor="{StaticResource Gray500}"/>
+                                            </VerticalStackLayout>
+
+                                            <Button Grid.Column="2"
+                                                    Text="Add Stock"
+                                                    Command="{Binding Source={RelativeSource AncestorType={x:Type views:InventoryDashboardPage}}, Path=BindingContext.AddStockCommand}"
+                                                    CommandParameter="{Binding .}"
+                                                    Style="{StaticResource PrimaryButton}"/>
+                                        </Grid>
+                                    </Frame>
+                                </DataTemplate>
+                            </CollectionView.ItemTemplate>
+                        </CollectionView>
+                    </VerticalStackLayout>
+                </Frame>
+
+                <!-- Expiring Items -->
+                <Frame Style="{StaticResource CardFrame}"
+                       IsVisible="{Binding ExpiringItems.Count, Converter={StaticResource IntToBoolConverter}}">
+                    <VerticalStackLayout Spacing="10">
+                        <Label Text="Expiring Soon"
+                               Style="{StaticResource HeaderLabel}"
+                               TextColor="{StaticResource ErrorColor}"/>
+
+                        <CollectionView ItemsSource="{Binding ExpiringItems}">
+                            <CollectionView.ItemTemplate>
+                                <DataTemplate>
+                                    <Frame Margin="0,5" Padding="10">
+                                        <Grid ColumnDefinitions="*,Auto" ColumnSpacing="10">
+                                            <VerticalStackLayout>
+                                                <Label Text="{Binding VegetableName}"
+                                                       FontAttributes="Bold"/>
+                                                <Label Text="{Binding LocationCode}"
+                                                       TextColor="{StaticResource Gray500}"/>
+                                            </VerticalStackLayout>
+
+                                            <VerticalStackLayout Grid.Column="1"
+                                                               HorizontalOptions="End">
+                                                <Label Text="{Binding ExpiryDate, StringFormat='{0:d}'}"
+                                                       FontAttributes="Bold"/>
+                                                <Label Text="{Binding Quantity, StringFormat='{0:N0} {1}', StringFormat.FormattedText={Binding Unit}}"
+                                                       TextColor="{StaticResource Gray500}"/>
+                                            </VerticalStackLayout>
+                                        </Grid>
+                                    </Frame>
+                                </DataTemplate>
+                            </CollectionView.ItemTemplate>
+                        </CollectionView>
+                    </VerticalStackLayout>
+                </Frame>
+
+                <!-- Current Inventory -->
+                <Frame Style="{StaticResource CardFrame}">
+                    <VerticalStackLayout Spacing="10">
+                        <Label Text="Current Inventory"
+                               Style="{StaticResource HeaderLabel}"/>
+
+                        <CollectionView ItemsSource="{Binding Inventory}">
+                            <CollectionView.ItemTemplate>
+                                <DataTemplate>
+                                    <SwipeView>
+                                        <SwipeView.LeftItems>
+                                            <SwipeItems>
+                                                <SwipeItem Text="Add"
+                                                          BackgroundColor="{StaticResource Primary}"
+                                                          Command="{Binding Source={RelativeSource AncestorType={x:Type views:InventoryDashboardPage}}, Path=BindingContext.AddStockCommand}"
+                                                          CommandParameter="{Binding .}"/>
+                                                <SwipeItem Text="Remove"
+                                                          BackgroundColor="{StaticResource ErrorColor}"
+                                                          Command="{Binding Source={RelativeSource AncestorType={x:Type views:InventoryDashboardPage}}, Path=BindingContext.RemoveStockCommand}"
+                                                          CommandParameter="{Binding .}"/>
+                                            </SwipeItems>
+                                        </SwipeView.LeftItems>
+
+                                        <SwipeView.RightItems>
+                                            <SwipeItems>
+                                                <SwipeItem Text="Transfer"
+                                                          BackgroundColor="{StaticResource Secondary}"
+                                                          Command="{Binding Source={RelativeSource AncestorType={x:Type views:InventoryDashboardPage}}, Path=BindingContext.TransferStockCommand}"
+                                                          CommandParameter="{Binding .}"/>
+                                            </SwipeItems>
+                                        </SwipeView.RightItems>
+
+                                        <Frame Margin="0,5" Padding="10">
+                                            <Frame.GestureRecognizers>
+                                                <TapGestureRecognizer 
+                                                    Command="{Binding Source={RelativeSource AncestorType={x:Type views:InventoryDashboardPage}}, Path=BindingContext.ViewTransactionsCommand}"
+                                                    CommandParameter="{Binding .}"/>
+                                            </Frame.GestureRecognizers>
+
+                                            <Grid ColumnDefinitions="*,Auto" RowDefinitions="Auto,Auto">
+                                                <Label Text="{Binding VegetableName}"
+                                                       FontAttributes="Bold"/>
+                                                
+                                                <Label Grid.Row="1"
+                                                       Text="{Binding LocationCode}"
+                                                       TextColor="{StaticResource Gray500}"/>
+                                                
+                                                <VerticalStackLayout Grid.Column="1"
+                                                                    Grid.RowSpan="2"
+                                                                    HorizontalOptions="End">
+                                                    <Label Text="{Binding Quantity, StringFormat='{0:N0}'}"
+                                                           FontAttributes="Bold"
+                                                           HorizontalOptions="End"/>
+                                                    <Label Text="{Binding Unit}"
+                                                           TextColor="{StaticResource Gray500}"
+                                                           HorizontalOptions="End"/>
+                                                </VerticalStackLayout>
+                                            </Grid>
+                                        </Frame>
+                                    </SwipeView>
+                                </DataTemplate>
+                            </CollectionView.ItemTemplate>
+                        </CollectionView>
+                    </VerticalStackLayout>
+                </Frame>
+            </VerticalStackLayout>
+        </ScrollView>
+    </Grid>
+</ContentPage>

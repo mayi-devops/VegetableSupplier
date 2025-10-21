@@ -1,0 +1,104 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:microcharts="clr-namespace:Microcharts.Maui;assembly=Microcharts.Maui"
+             xmlns:toolkit="http://schemas.microsoft.com/dotnet/2022/maui/toolkit"
+             xmlns:controls="clr-namespace:Microsoft.Maui.Controls;assembly=Microsoft.Maui.Controls"
+             x:Class="VegetableSupplier.Views.AnalyticsDashboardPage"
+             Title="Analytics">
+
+    <ScrollView>
+        <Grid RowDefinitions="Auto,*" Padding="20">
+            <!-- Time Period Selection -->
+            <Grid ColumnDefinitions="*,Auto" Margin="0,0,0,20">
+                <Picker ItemsSource="{Binding TimePeriods}"
+                        SelectedItem="{Binding SelectedPeriod}"
+                        Title="Select Time Period"/>
+                
+                <ActivityIndicator Grid.Column="1"
+                                 IsVisible="{Binding IsLoading}"
+                                 IsRunning="{Binding IsLoading}"
+                                 Margin="10,0,0,0"/>
+            </Grid>
+
+            <VerticalStackLayout Grid.Row="1" Spacing="20">
+                <!-- Summary Cards -->
+                <Grid ColumnDefinitions="*,*,*" ColumnSpacing="15">
+                    <!-- Revenue Card -->
+                    <Frame Style="{StaticResource CardFrame}"
+                           BackgroundColor="{StaticResource Primary}">
+                        <VerticalStackLayout>
+                            <Label Text="Revenue"
+                                   TextColor="White"
+                                   FontAttributes="Bold"/>
+                            <Label Text="{Binding TotalRevenue, StringFormat='₹{0:N0}'}"
+                                   TextColor="White"
+                                   FontSize="24"
+                                   FontAttributes="Bold"/>
+                        </VerticalStackLayout>
+                    </Frame>
+
+                    <!-- Profit Card -->
+                    <Frame Grid.Column="1"
+                           Style="{StaticResource CardFrame}"
+                           BackgroundColor="{StaticResource Secondary}">
+                        <VerticalStackLayout>
+                            <Label Text="Profit"
+                                   TextColor="White"
+                                   FontAttributes="Bold"/>
+                            <Label Text="{Binding TotalProfit, StringFormat='₹{0:N0}'}"
+                                   TextColor="White"
+                                   FontSize="24"
+                                   FontAttributes="Bold"/>
+                        </VerticalStackLayout>
+                    </Frame>
+
+                    <!-- Orders Card -->
+                    <Frame Grid.Column="2"
+                           Style="{StaticResource CardFrame}"
+                           BackgroundColor="{StaticResource Tertiary}">
+                        <VerticalStackLayout>
+                            <Label Text="Orders"
+                                   TextColor="White"
+                                   FontAttributes="Bold"/>
+                            <Label Text="{Binding TotalOrders}"
+                                   TextColor="White"
+                                   FontSize="24"
+                                   FontAttributes="Bold"/>
+                        </VerticalStackLayout>
+                    </Frame>
+                </Grid>
+
+                <!-- Sales Chart -->
+                <Frame Style="{StaticResource CardFrame}">
+                    <VerticalStackLayout>
+                        <Label Text="Sales Trend"
+                               Style="{StaticResource HeaderLabel}"/>
+                        <microcharts:ChartView Chart="{Binding SalesChart}"
+                                             HeightRequest="200"/>
+                    </VerticalStackLayout>
+                </Frame>
+
+                <!-- Top Products Chart -->
+                <Frame Style="{StaticResource CardFrame}">
+                    <VerticalStackLayout>
+                        <Label Text="Top Vegetables"
+                               Style="{StaticResource HeaderLabel}"/>
+                        <microcharts:ChartView Chart="{Binding TopVegetablesChart}"
+                                             HeightRequest="200"/>
+                    </VerticalStackLayout>
+                </Frame>
+
+                <!-- Top Vendors Chart -->
+                <Frame Style="{StaticResource CardFrame}">
+                    <VerticalStackLayout>
+                        <Label Text="Top Vendors"
+                               Style="{StaticResource HeaderLabel}"/>
+                        <microcharts:ChartView Chart="{Binding TopVendorsChart}"
+                                             HeightRequest="200"/>
+                    </VerticalStackLayout>
+                </Frame>
+            </VerticalStackLayout>
+        </Grid>
+    </ScrollView>
+</ContentPage>

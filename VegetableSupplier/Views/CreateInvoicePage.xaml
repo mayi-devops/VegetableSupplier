@@ -1,0 +1,96 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="VegetableSupplier.Views.CreateInvoicePage"
+             Title="{x:Static resx:AppResources.NewInvoice}">
+    <Grid RowDefinitions="Auto,*,Auto" Padding="20">
+        <!-- Vendor Selection -->
+        <Frame>
+            <Grid ColumnDefinitions="*,Auto">
+                <Picker ItemsSource="{Binding Vendors}"
+                        ItemDisplayBinding="{Binding Name}"
+                        SelectedItem="{Binding SelectedVendor}"
+                        Title="{x:Static resx:AppResources.SelectVendor}"/>
+                
+                <Button Grid.Column="1"
+                        Text="{x:Static resx:AppResources.AddVendor}"
+                        Command="{Binding AddVendorCommand}"
+                        Style="{StaticResource SecondaryButton}"
+                        Margin="10,0,0,0"/>
+            </Grid>
+        </Frame>
+
+        <!-- Invoice Items -->
+        <ScrollView Grid.Row="1">
+            <VerticalStackLayout Spacing="15">
+                <Label Text="{x:Static resx:AppResources.AddItems}"
+                       FontSize="Large"
+                       FontAttributes="Bold"/>
+
+                <CollectionView ItemsSource="{Binding InvoiceItems}">
+                    <CollectionView.ItemTemplate>
+                        <DataTemplate>
+                            <Frame Margin="0,5" Padding="15">
+                                <Grid ColumnDefinitions="*,Auto,Auto,Auto" ColumnSpacing="10">
+                                    <Picker ItemsSource="{Binding Source={RelativeSource AncestorType={x:Type views:CreateInvoicePage}}, Path=BindingContext.Vegetables}"
+                                            ItemDisplayBinding="{Binding Name}"
+                                            SelectedItem="{Binding Vegetable}"/>
+                                    
+                                    <Entry Grid.Column="1"
+                                           Text="{Binding Quantity}"
+                                           Keyboard="Numeric"
+                                           WidthRequest="80"
+                                           HorizontalTextAlignment="End"/>
+                                           
+                                    <Label Grid.Column="2"
+                                           Text="{Binding Vegetable.Unit}"
+                                           VerticalOptions="Center"/>
+                                           
+                                    <Label Grid.Column="3"
+                                           Text="{Binding Total, StringFormat='₹{0:N2}'}"
+                                           VerticalOptions="Center"
+                                           FontAttributes="Bold"
+                                           WidthRequest="100"
+                                           HorizontalTextAlignment="End"/>
+                                </Grid>
+                            </Frame>
+                        </DataTemplate>
+                    </CollectionView.ItemTemplate>
+                </CollectionView>
+
+                <!-- Add Item Button -->
+                <Button Text="{x:Static resx:AppResources.AddItems}"
+                        Command="{Binding AddItemCommand}"
+                        Style="{StaticResource SecondaryButton}"/>
+
+                <!-- Total -->
+                <Frame Padding="15" Margin="0,10">
+                    <Grid ColumnDefinitions="*,Auto">
+                        <Label Text="{x:Static resx:AppResources.Total}"
+                               FontAttributes="Bold"
+                               FontSize="Large"/>
+                               
+                        <Label Grid.Column="1"
+                               Text="{Binding TotalAmount, StringFormat='₹{0:N2}'}"
+                               FontAttributes="Bold"
+                               FontSize="Large"/>
+                    </Grid>
+                </Frame>
+            </VerticalStackLayout>
+        </ScrollView>
+
+        <!-- Action Buttons -->
+        <HorizontalStackLayout Grid.Row="2" Spacing="10">
+            <Button Text="{x:Static resx:AppResources.GenerateInvoice}"
+                    Command="{Binding GenerateInvoiceCommand}"
+                    HorizontalOptions="FillAndExpand"
+                    Style="{StaticResource PrimaryButton}"/>
+                    
+            <Button Text="{x:Static resx:AppResources.Share}"
+                    Command="{Binding ShareCommand}"
+                    IsEnabled="{Binding CanShare}"
+                    HorizontalOptions="FillAndExpand"
+                    Style="{StaticResource SecondaryButton}"/>
+        </HorizontalStackLayout>
+    </Grid>
+</ContentPage>

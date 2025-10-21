@@ -1,0 +1,68 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="VegetableSupplier.Views.VendorDetailPage"
+             Title="{Binding Title}">
+    <ScrollView>
+        <VerticalStackLayout Padding="20" Spacing="20">
+            <Frame>
+                <VerticalStackLayout Spacing="15">
+                    <Entry Placeholder="{x:Static resx:AppResources.VendorName}"
+                           Text="{Binding Name}"/>
+                           
+                    <Entry Placeholder="{x:Static resx:AppResources.PhoneNumber}"
+                           Text="{Binding PhoneNumber}"
+                           Keyboard="Telephone"/>
+                           
+                    <Entry Placeholder="{x:Static resx:AppResources.Email}"
+                           Text="{Binding Email}"
+                           Keyboard="Email"/>
+                           
+                    <Editor Placeholder="{x:Static resx:AppResources.Address}"
+                            Text="{Binding Address}"
+                            HeightRequest="100"
+                            AutoSize="TextChanges"/>
+                </VerticalStackLayout>
+            </Frame>
+
+            <!-- Purchase History -->
+            <Label Text="Purchase History"
+                   FontSize="Large"
+                   FontAttributes="Bold"
+                   IsVisible="{Binding IsExistingVendor}"/>
+
+            <CollectionView ItemsSource="{Binding PurchaseHistory}"
+                          EmptyView="{x:Static resx:AppResources.NoInvoicesFound}"
+                          IsVisible="{Binding IsExistingVendor}">
+                <CollectionView.ItemTemplate>
+                    <DataTemplate>
+                        <Frame Margin="0,5" Padding="15">
+                            <Grid ColumnDefinitions="*,Auto" RowDefinitions="Auto,Auto">
+                                <Label Text="{Binding InvoiceNumber}"
+                                       FontAttributes="Bold"/>
+                                
+                                <Label Grid.Column="1"
+                                       Text="{Binding TotalAmount, StringFormat='₹{0:N2}'}"
+                                       FontAttributes="Bold"/>
+                                
+                                <Label Grid.Row="1"
+                                       Text="{Binding Date, StringFormat='{0:d}'}"
+                                       TextColor="{StaticResource Gray500}"/>
+                                
+                                <Label Grid.Row="1"
+                                       Grid.Column="1"
+                                       Text="{Binding Status}"
+                                       TextColor="{StaticResource Primary}"/>
+                            </Grid>
+                        </Frame>
+                    </DataTemplate>
+                </CollectionView.ItemTemplate>
+            </CollectionView>
+
+            <!-- Save Button -->
+            <Button Text="{x:Static resx:AppResources.Save}"
+                    Command="{Binding SaveCommand}"
+                    Style="{StaticResource PrimaryButton}"/>
+        </VerticalStackLayout>
+    </ScrollView>
+</ContentPage>

@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentView xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="VegetableSupplier.Controls.ThemePreviewControl">
+    <Frame CornerRadius="12" Padding="10" HeightRequest="120" WidthRequest="200">
+        <Grid RowDefinitions="Auto,*,Auto" RowSpacing="8">
+            <Label Text="{Binding ThemeName}"
+                   FontAttributes="Bold"
+                   HorizontalOptions="Center"/>
+
+            <Grid Grid.Row="1" ColumnDefinitions="*,*,*" ColumnSpacing="4">
+                <Rectangle Fill="{Binding PrimaryColor}"
+                          HeightRequest="40"/>
+                <Rectangle Grid.Column="1"
+                          Fill="{Binding SecondaryColor}"
+                          HeightRequest="40"/>
+                <Rectangle Grid.Column="2"
+                          Fill="{Binding TertiaryColor}"
+                          HeightRequest="40"/>
+            </Grid>
+
+            <Grid Grid.Row="2" ColumnDefinitions="*,*">
+                <Label Text="Light"
+                       HorizontalOptions="Center"
+                       TextColor="{Binding TextColor}"/>
+                <Label Grid.Column="1"
+                       Text="Dark"
+                       HorizontalOptions="Center"
+                       TextColor="{Binding TextSecondaryColor}"/>
+            </Grid>
+        </Grid>
+    </Frame>
+</ContentView>
